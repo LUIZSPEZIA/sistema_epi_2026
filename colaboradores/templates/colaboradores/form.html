@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>{% if object %}Editar{% else %}Novo{% endif %} Colaborador</h1>
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <strong>Erros no formulário:</strong>
+    <ul>
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <p><label for="id_nome">Nome:</label> {{ form.nome }}</p>
+      <p><label for="id_matricula">Matrícula:</label> {{ form.matricula }}</p>
+      <p><label for="id_cpf">CPF:</label> {{ form.cpf}}</p>
+      <p><label for="id_email">Email:</label> {{ form.email }}</p>
+      <p><label for="id_telefone">Telefone:</label> {{ form.telefone }}</p>
+      <p><label for="id_setor">Setor:</label> {{ form.setor }}</p>
+      <p><label for="id_cargo">Cargo:</label> {{ form.cargo }}</p>
+      <p><label for="id_data_admissao">Data de Admissão(AAAA-MM-DD):</label> {{ form.data_admissao }}</p>
+      <p><label for="id_observacoes">Observações:</label> {{ form.observacoes }}</p>
+      <p><label for="id_foto_colaborador">Foto:</label> {{ form.foto_colaborador }}</p>
+
+      <button type="submit">Salvar</button>
+      <a href="{% url 'colaboradores:lista' %}">Cancelar</a>
+  </form>
+{% endblock %}

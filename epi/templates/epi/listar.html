@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Lista de EPIs{% endblock %}
+{% block content %}
+<h2>Lista de EPIs</h2>
+<a href="{% url 'criar_epi' %}"><button>+ Novo EPI</button></a>
+<table>
+    <tr>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>C.A.</th>
+        <th>Quantidade</th>
+        <th>Validade</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for epi in epis %}
+    <tr>
+        <td>{{ epi.nome }}</td>
+        <td>{{ epi.get_categoria_display }}</td>
+        <td>{{ epi.ca }}</td>
+        <td>{{ epi.quantidade }}</td>
+        <td>{{ epi.validade|date:"d/m/Y" }}</td>
+        <td>
+            <a href="{% url 'editar_epi' epi.id %}">✏️ Editar</a> |
+            <a href="{% url 'excluir_epi' epi.id %}">🗑️ Excluir</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Nenhum EPI cadastrado.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

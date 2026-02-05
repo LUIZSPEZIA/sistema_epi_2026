@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gerenciamento de EPI{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Gerenciamento de EPI</h1>
+        <nav class="nav">
+    <a href="/">🏠 Início</a>
+    <a href="/accounts/restrito/">⚙️ Administração</a>
+    <a href="/colaboradores/">👥 Colaboradores</a>
+    <a href="/epi/">🛡️ EPIs</a>
+    <a href="/emprestimos/">📜 Empréstimos</a>
+
+    <!-- Arrumar a pagina de admin para login -->
+
+    <!-- Dropdown para Relatórios -->
+    <div class="dropdown" id="reportsDropdown">
+        <button class="dropbtn" aria-haspopup="true" aria-expanded="false">📊 Relatórios ▾</button>
+        <div class="dropdown-content" aria-label="submenu relatórios">
+            <a href="/relatorios/colaborador/">👤 Por Colaborador</a>
+            <a href="/relatorios/epi/">🧰 Por Tipo de EPI</a>
+            <a href="/relatorios/vencidos/">⚠️ EPIs Vencidos</a>
+        </div>
+    </div>
+  <div class="user-info-box">
+  {% if user.is_authenticated %}
+    <span>Olá, {{ user.username }}!</span>
+    <form id="logout-form" method="post" action="/admin/logout/">
+      {% csrf_token %}
+      <button type="submit">🚪 Sair</button>
+    </form>
+  {% else %}
+    <a href="/accounts/login/">🔑 Entrar</a>
+  {% endif %}
+</div>
+</nav>
+    </header>
+
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>© Projeto Controle de EPIs- Desenvolvido por Luiz Gustavo</p>
+    </footer>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var dropdown = document.getElementById('reportsDropdown');
+    if (!dropdown) return;
+
+    var button = dropdown.querySelector('.dropbtn');
+
+    // Toggle via click (útil para touch)
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        var expanded = dropdown.classList.toggle('open');
+        // atualiza aria-expanded para acessibilidade
+        button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+
+    // Fecha dropdown ao clicar fora
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('open');
+            button.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Fecha com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            dropdown.classList.remove('open');
+            button.setAttribute('aria-expanded', 'false');
+            button.blur();
+        }
+    });
+});
+</script>
+</body>
+</html>
