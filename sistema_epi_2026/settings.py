@@ -4,7 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'CHANGE-ME-IN-PROD'
 LOGIN_URL = '/colaboradores/login/'
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/accounts/restrito/'
 
 # settings.py
 import os

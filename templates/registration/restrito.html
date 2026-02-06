@@ -4,6 +4,12 @@
 
 {% block content %}
 <h2>Área do Administrador</h2>
+
+{% if user.is_authenticated %}
+    <h2>Olá, {{ user.username }}!</h2>
+    
+
+  {% endif %}
 <form id="acesso" method="post" action="/admin/">
     {% csrf_token %}
     <button type="submit">Restrito</button>
